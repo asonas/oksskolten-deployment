@@ -19,7 +19,12 @@ RUN npm ci
 
 FROM deps AS build
 
-COPY --from=source /app .
+COPY --from=source /app/server ./server
+COPY --from=source /app/shared ./shared
+COPY --from=source /app/src ./src
+COPY --from=source /app/migrations ./migrations
+COPY --from=source /app/public ./public
+COPY --from=source /app/tsconfig.json /app/vite.config.ts /app/tailwind.config.ts /app/postcss.config.js /app/index.html /app/components.json ./
 RUN npm run build
 
 FROM base AS runtime
