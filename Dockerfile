@@ -46,17 +46,20 @@ COPY --from=source /app/migrations ./migrations
 
 WORKDIR /tmp
 RUN curl -fsSL https://claude.ai/install.sh | bash \
- && mv /root/.local/bin/claude /usr/local/bin/claude
+ && mv /root/.local/bin/claude /usr/local/bin/claude \
+ && chmod 755 /usr/local/bin/claude
 WORKDIR /app
 
-RUN addgroup --system app && adduser --system --ingroup app app \
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod 755 /usr/local/bin/entrypoint.sh
+
+RUN addgroup --system app && adduser --system --home /home/app --ingroup app app \
  && mkdir -p /app/data && chown app:app /app/data \
- && mkdir -p /home/app/.claude && chown app:app /home/app/.claude
+ && mkdir -p /home/app/.claude && chown -R app:app /home/app
 USER app
 
+ENV HOME=/home/app
 ENV DISABLE_AUTOUPDATER=1
-
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
 EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
