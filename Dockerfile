@@ -46,7 +46,9 @@ COPY --from=source /app/migrations ./migrations
 
 WORKDIR /tmp
 RUN curl -fsSL https://claude.ai/install.sh | bash \
- && mv /root/.local/bin/claude /usr/local/bin/claude \
+ && cp -rL /root/.local/share/claude /usr/local/share/claude \
+ && cp -L /root/.local/bin/claude /usr/local/bin/claude \
+ && chmod -R 755 /usr/local/share/claude \
  && chmod 755 /usr/local/bin/claude
 WORKDIR /app
 
