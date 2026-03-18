@@ -45,8 +45,15 @@ COPY --from=source /app/shared ./shared
 COPY --from=source /app/migrations ./migrations
 
 RUN addgroup --system app && adduser --system --ingroup app app \
- && mkdir -p /app/data && chown app:app /app/data
+ && mkdir -p /app/data && chown app:app /app/data \
+ && mkdir -p /home/app/.claude /home/app/.local && chown -R app:app /home/app
+
 USER app
+WORKDIR /tmp
+RUN curl -fsSL https://claude.ai/install.sh | bash
+WORKDIR /app
+ENV PATH="/home/app/.local/bin:$PATH"
+ENV DISABLE_AUTOUPDATER=1
 
 EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \

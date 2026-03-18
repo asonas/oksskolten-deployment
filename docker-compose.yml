@@ -19,6 +19,7 @@ services:
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
     volumes:
       - data:/app/data
+      - claude_config:/home/app/.claude
     expose:
       - "3000"
     healthcheck:
@@ -64,3 +65,4 @@ services:
 volumes:
   data:
   meili_data:
+  claude_config:
