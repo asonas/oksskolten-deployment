@@ -11,7 +11,7 @@ services:
       DATABASE_URL: file:/app/data/rss.db
       RSS_BRIDGE_URL: http://rss-bridge:80
       FLARESOLVERR_URL: http://flaresolverr:8191
-      FLARESOLVERR_CONCURRENCY: "0"
+      FLARESOLVERR_CONCURRENCY: "1"
       FETCH_CONCURRENCY: "5"
       PARSE_MAX_THREADS: "2"
       CRON_SCHEDULE: "*/5 * * * *"
@@ -60,6 +60,7 @@ services:
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:latest
     restart: unless-stopped
+    mem_limit: 1g
     environment:
       LOG_LEVEL: info
 
