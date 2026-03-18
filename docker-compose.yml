@@ -3,9 +3,6 @@ services:
     build:
       context: .
       target: runtime
-      args:
-        OKSSKOLTEN_REPO: https://github.com/asonas/oksskolten.git
-        OKSSKOLTEN_REF: feature/keyboard-navigation
     restart: unless-stopped
     environment:
       NODE_ENV: production
