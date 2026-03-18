@@ -7,7 +7,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3000
-      DATABASE_URL: file:/data/rss.db
+      DATABASE_URL: file:/app/data/rss.db
       RSS_BRIDGE_URL: http://rss-bridge:80
       FLARESOLVERR_URL: http://flaresolverr:8191
       FLARESOLVERR_CONCURRENCY: "0"
@@ -17,7 +17,7 @@ services:
       MEILI_URL: http://meilisearch:7700
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
     volumes:
-      - data:/data
+      - data:/app/data
     expose:
       - "3000"
     healthcheck:
