@@ -44,15 +44,13 @@ COPY --from=source /app/server ./server
 COPY --from=source /app/shared ./shared
 COPY --from=source /app/migrations ./migrations
 
+RUN npm install -g @anthropic-ai/claude-code
+
 RUN addgroup --system app && adduser --system --ingroup app app \
  && mkdir -p /app/data && chown app:app /app/data \
- && mkdir -p /home/app/.claude /home/app/.local && chown -R app:app /home/app
-
+ && mkdir -p /home/app/.claude && chown app:app /home/app/.claude
 USER app
-WORKDIR /tmp
-RUN curl -fsSL https://claude.ai/install.sh | bash
-WORKDIR /app
-ENV PATH="/home/app/.local/bin:$PATH"
+
 ENV DISABLE_AUTOUPDATER=1
 
 EXPOSE 3000
