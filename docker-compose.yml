@@ -21,8 +21,6 @@ services:
       - data:/app/data
     expose:
       - "3000"
-    labels:
-      - traefik.http.services.server.loadbalancer.server.port=3000
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
       interval: 30s
@@ -36,8 +34,6 @@ services:
         condition: service_started
       flaresolverr:
         condition: service_started
-    networks:
-      - internal
 
   meilisearch:
     image: getmeili/meilisearch:v1.13
@@ -54,27 +50,17 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
-    networks:
-      - internal
 
   rss-bridge:
     image: rssbridge/rss-bridge:latest
     restart: unless-stopped
-    networks:
-      - internal
 
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:latest
     restart: unless-stopped
     environment:
       LOG_LEVEL: info
-    networks:
-      - internal
 
 volumes:
   data:
   meili_data:
-
-networks:
-  internal:
-    driver: bridge
