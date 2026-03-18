@@ -21,6 +21,8 @@ services:
       - data:/app/data
     expose:
       - "3000"
+    labels:
+      - traefik.http.services.server.loadbalancer.server.port=3000
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
       interval: 30s
