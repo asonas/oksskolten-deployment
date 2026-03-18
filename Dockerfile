@@ -44,7 +44,10 @@ COPY --from=source /app/server ./server
 COPY --from=source /app/shared ./shared
 COPY --from=source /app/migrations ./migrations
 
-RUN npm install -g @anthropic-ai/claude-code
+WORKDIR /tmp
+RUN curl -fsSL https://claude.ai/install.sh | bash \
+ && mv /root/.local/bin/claude /usr/local/bin/claude
+WORKDIR /app
 
 RUN addgroup --system app && adduser --system --ingroup app app \
  && mkdir -p /app/data && chown app:app /app/data \
