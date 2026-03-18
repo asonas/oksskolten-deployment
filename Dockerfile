@@ -56,7 +56,10 @@ USER app
 
 ENV DISABLE_AUTOUPDATER=1
 
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+
 EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD curl -f http://localhost:3000/api/health || exit 1
+ENTRYPOINT ["entrypoint.sh"]
 CMD ["npx", "tsx", "--dns-result-order=ipv4first", "server/index.ts"]
