@@ -3,18 +3,21 @@ services:
     build:
       context: .
       target: runtime
+    init: true
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
     environment:
       NODE_ENV: production
       HOST: 0.0.0.0
       PORT: 3000
       DATABASE_URL: file:/app/data/rss.db
       RSS_BRIDGE_URL: http://rss-bridge:80
-      FLARESOLVERR_URL: http://flaresolverr:8191
-      FLARESOLVERR_CONCURRENCY: "1"
-      FETCH_CONCURRENCY: "5"
-      PARSE_MAX_THREADS: "2"
-      CRON_SCHEDULE: "*/5 * * * *"
+      FETCH_CONCURRENCY: "2"
+      PARSE_MAX_THREADS: "1"
+      CRON_SCHEDULE: "*/15 * * * *"
       MEILI_URL: http://meilisearch:7700
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
       NODE_OPTIONS: "--dns-result-order=ipv4first"
@@ -33,8 +36,6 @@ services:
       meilisearch:
         condition: service_healthy
       rss-bridge:
-        condition: service_started
-      flaresolverr:
         condition: service_started
 
   meilisearch:
@@ -56,13 +57,6 @@ services:
   rss-bridge:
     image: rssbridge/rss-bridge:latest
     restart: unless-stopped
-
-  flaresolverr:
-    image: ghcr.io/flaresolverr/flaresolverr:latest
-    restart: unless-stopped
-    mem_limit: 1g
-    environment:
-      LOG_LEVEL: info
 
 volumes:
   data:
