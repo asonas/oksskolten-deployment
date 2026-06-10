@@ -7,7 +7,7 @@ RUN apt-get update -qq && apt-get install -y -qq ca-certificates curl tzdata git
 FROM base AS source
 
 WORKDIR /app
-ARG OKSSKOLTEN_REPO=https://github.com/babarot/oksskolten.git
+ARG OKSSKOLTEN_REPO=https://github.com/asonas/oksskolten.git
 ARG OKSSKOLTEN_REF=main
 RUN git clone --depth 1 --branch ${OKSSKOLTEN_REF} ${OKSSKOLTEN_REPO} .
 
