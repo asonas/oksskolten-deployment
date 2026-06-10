@@ -1,7 +1,7 @@
 #!/bin/sh
-# Symlink .claude.json from volume to home directory if it exists
-if [ -f /home/app/.claude/.claude.json ]; then
-  ln -sf /home/app/.claude/.claude.json /home/app/.claude.json
+# Symlink credentials from volume to home directory if they exist
+if [ -f /home/app/.claude/.credentials.json ]; then
+  chmod 600 /home/app/.claude/.credentials.json
 fi
 
 exec "$@"
